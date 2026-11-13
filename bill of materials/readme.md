@@ -19,5 +19,4 @@
 | 14 | Rode draad met massieve kern 22 AWG voor breadboard per meter | Elektrische bedrading | Nieuw | €1,50 | 1 | €1,50 | [Otronic](https://www.otronic.nl/nl/rode-draad-met-massieve-kern-22awg-voor-breadboards-per-meter) |
 | 15 | Gele draad met massieve kern 22 AWG voor breadboard per meter | Elektrische bedrading | Nieuw | €1,50 | 1 | €1,50 | [Otronic](https://www.otronic.nl/nl/gele-draad-met-massieve-kern-22awg-voor-breadboards-per-meter) |
 | 16 | Zwarte draad met massieve kern 22 AWG voor breadboard per meter | Elektrische bedrading | Nieuw | €1,50 | 1 | €1,50 | [Otronic](https://www.otronic.nl/nl/zwarte-draad-met-massieve-kern-22awg-voor-breadboards-per-meter) |
-
 |  |  |  |  |  | **Totaal** | **€71,33** |  |
