@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define Baudrate 115200
-#define SENSOR_COUNT 6
+#define SENSOR_COUNT 8
 #define EEPROM_MAGIC 0x4C463032UL
 #define EEPROM_SIZE sizeof(param_t)
 
@@ -21,18 +21,16 @@ float position, iTerm, lastErr;
 unsigned long previous, calculationTime, drivePrevious, driveHelp;
 
 // Motorpinnen
-const int MotorLeftIn1  = 16;
-const int MotorLeftIn2  = 17;
+const int MotorLeftIn1  = 22;
+const int MotorLeftIn2  = 21;
 const int MotorRightIn1 = 18;
-const int MotorRightIn2 = 19;
-const int MotorLeftPwm  = 5;
-const int MotorRightPwm = 21;
-const int standbyPin    = 4;
+const int MotorRightIn2 = 17;
+const int MotorLeftPwm  = 23;
+const int MotorRightPwm = 19;
+const int standbyPin    = 16;
 
 // Pin's
-const int startButton = 23;
-const int stopButton  = 22;
-const int sensor[SENSOR_COUNT] = {39, 36, 34, 35, 32, 33};
+const int sensor[SENSOR_COUNT] = {36, 39, 34, 35, 32, 33, 25, 26};
 
 // Param die in EEPROM staan
 struct param_t {
@@ -284,8 +282,10 @@ void setup() {
   pinMode(MotorLeftPwm, OUTPUT);
   pinMode(MotorRightPwm, OUTPUT);
   pinMode(standbyPin, OUTPUT);
-  analogWrite(MotorLeftPwm, 0);
-  analogWrite(MotorRightPwm, 0);
+  ledcAttachChannel(MotorLeftPwm, 5000, 8, 0);
+  ledcAttachChannel(MotorRightPwm, 5000, 8, 1);
+  ledcWrite(MotorLeftPwm, 0);
+  ledcWrite(MotorRightPwm, 0);
   digitalWrite(standbyPin, HIGH);
 
   SerialBT.println("ready");
@@ -336,7 +336,7 @@ void loop() {
     int sRechts = (index < SENSOR_COUNT - 1) ? normalised[index + 1] : 0;
     float b = (sRechts - sLinks) * 0.5f;
     float a = sRechts - b - sNul;
-    position = (fabs(a) < 0.001f) ? (index - 2.5f) : (-b / (2 * a) + index - 2.5f);
+    position = (fabs(a) < 0.001f) ? (index - 3.5f) : (-b / (2 * a) + index - 3.5f);
     position *= 15;
   }
 
@@ -369,7 +369,7 @@ void loop() {
     digitalWrite(MotorLeftIn1, LOW);
     digitalWrite(MotorLeftIn2, LOW);
   }
-  analogWrite(MotorLeftPwm, abs(powerLeft));
+  ledcWrite(MotorLeftPwm, abs(powerLeft));
 
   if (powerRight > 0) {
     digitalWrite(MotorRightIn1, HIGH);
@@ -381,7 +381,7 @@ void loop() {
     digitalWrite(MotorRightIn1, LOW);
     digitalWrite(MotorRightIn2, LOW);
   }
-  analogWrite(MotorRightPwm, abs(powerRight));
+  ledcWrite(MotorRightPwm, abs(powerRight));
 
   unsigned long diff = micros() - current;
   if (diff > calculationTime) calculationTime = diff;
